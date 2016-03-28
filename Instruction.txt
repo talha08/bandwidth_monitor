@@ -1,0 +1,1 @@
+1.please put the jpcap.dll file into system32

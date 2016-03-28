@@ -1,0 +1,68 @@
+$Id: BUILD.windows,v 1.1 2003/10/16 22:03:37 pcharles Exp $
+
+            net.sourceforge.jpcap windows build information
+
+
+  Active jpcap development is taking place on Unix platforms.
+  However, jpcap should run on any platform where libpcap is implemented.
+
+  Precompiled .dll files for windows can be found at
+    http://kalug.linux.org.tw/~chihchun/Lab/index.php/Jpcap
+
+  If you'd like to build the .dll yourself, the following instructions 
+  should work on windows with MinGW.
+
+
+    o Get the Java 2 SDK, if you don't already have it:
+        http://java.sun.com
+ 
+    o Download and install MinGW, if you don't already have it:
+        http://www.mingw.org/download.shtml 
+
+      (You want the "MinGW" package under "Current" in the "File List")
+
+    o Download and install Winpcap developer's pack: 
+        http://winpcap.polito.it/install/default.htm
+ 
+    o Download the latest jpcap source tarball:
+        http://sourceforge.net/projects/jpcap
+ 
+    o From the jpcap sources, extract the following files: 
+        src\java\net\sourceforge\jpcap\capture\jpcap.c
+        src\java\net\sourceforge\jpcap\capture\net_sourceforge_jpcap_capture_PacketCapture.h
+ 
+    o Compile the DLL:
+        gcc -Wall -O2 -D_JNI_IMPLEMENTATION_ -Ic:/j2sdk1.4.2/include -Ic:/j2sdk1.4.2/include/win32 -Ic:/wpdpack/Include -Wl,--kill-at -Lc:/wpdpack/Lib -shared jpcap.c -lwpcap -o jpcap.dll 
+
+      NOTE:
+      The order of the "-l", "-shared", and "jpcap.c" parameters IS IMPORTANT!
+      You will need to change the "-I" and "-L" paths to reflect the locations
+      of your JDK and the Winpcap libraries.
+ 
+
+      As an alternative to the last step, you can copy the Makefile below
+      and change it to reflect your system, then do a mingw32-make.
+ 
+      This procedure worked for me as of 2003 Oct 13 with jpcap 0.01.14,
+      MinGW 3.1, Sun JDK 1.4.2, and Winpcap 3.0.
+ 
+
+-----------------Makefile------------------------------------------------
+# Makefile to compile the jpcap DLL from source using MinGW.
+ 
+# Change these paths to reflect your system
+ GCC = C:/Utils/MinGW/bin/gcc
+ JDK = "C:/jdk1.4.2/include/"
+ WPCAP = "C:/wpdpack/"
+ LIB = wpcap
+ 
+# You can change these to your favorite optimization flags
+ CCOPTS = -Wall -O2
+ 
+
+jpcap.dll :
+ $(GCC) $(CCOPTS) -D_JNI_IMPLEMENTATION_ \
+ -I$(JDK) -I$(JDK)/win32 -I$(WPCAP)/Include -L$(WPCAP)/Lib\
+ -Wl,--kill-at -shared jpcap.c -l$(LIB) -o jpcap.dll
+ -------------------------------------------------------------------------
+ 

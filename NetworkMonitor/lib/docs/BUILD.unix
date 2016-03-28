@@ -1,0 +1,36 @@
+$Id: BUILD.unix,v 1.1 2003/10/16 22:02:22 pcharles Exp $
+
+                  net.sourceforge.jpcap build information
+
+
+  Build Procedure
+
+    0. These instructions are only relevant if you fetched the jpcap 
+       .tar.gz or source RPM distribution and are interested in 
+       working on jpcap or developing applications which utilize jpcap.
+
+       If you downloaded the binary RPM and only wish to run the 
+       jpcap tools, see README.
+
+
+    1. Before you build the project you must have installed and in your path
+
+      o JDK1.2+
+      o gmake
+
+
+    2. The script scripts/env_jpcap is an example environment setup script.
+       A typical environment setup sequence would look something like:
+
+         # setup java environment
+         export JAVA_HOME=/usr/java/jdk1.3
+         export PATH=$JAVA_HOME/bin:$PATH
+         export CLASSPATH=$JAVA_HOME/jre/lib/rt.jar
+
+         # setup your jpcap development environment
+         . ~/YOUR_WORKSPACE/sourceforge/jpcap/scripts/env_jpcap
+
+
+       The env_jpcap contains a PROJECT_HOME environment variable which 
+       you must edit to point to your jpcap cvs workspace.
+
